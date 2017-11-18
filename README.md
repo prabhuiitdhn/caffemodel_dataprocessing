@@ -1,5 +1,6 @@
 For creating the caffemodel using custom dataset needs three steps:
 1. Data processing
+   -I've used my own dataset for driver detection
    -In this step of creating caffemodel, data in the form of images needs to be in train.txt and val.txt file for converting the dataset in LMDB dataset format(Lightning Memory-Mapped Database (LMDB) is a software library that provides a high-performance embedded transactional database in the form of a key-value store.)
 2. caffe Network file prepation
 3. Training and finetuning the parameters 
@@ -9,8 +10,8 @@ To feed Caffe with large images dataset it’s good choice to use LMDB format fo
 
 We need to change following things:
 
-    EXAMPLE=examples/dogs : where we are going to store LMDB
-    DATA=data/dogs/dogs_data : folder with dogs train.txt, val.txt
+    EXAMPLE=caffemodel/caffedriver: where we are going to store LMDB
+    DATA=caffemodel/caffe_driver: folder with dogs train.txt, val.txt
     TRAIN_DATA_ROOT : folder with train images
     VAL_DATA_ROOT : folder with test images (with script above it’s same folder)
     RESIZE=true : we need to resize all photos to same size
@@ -22,7 +23,7 @@ GLOG_logtostderr=1 $TOOLS/convert_imageset \
 — shuffle \
 $TRAIN_DATA_ROOT \
 $DATA/train.txt \
-$EXAMPLE/dogs_train_lmdb
+$EXAMPLE/driver_train_lmdb
 echo “Creating val lmdb…”
 
 GLOG_logtostderr=1 $TOOLS/convert_imageset \
@@ -31,9 +32,9 @@ GLOG_logtostderr=1 $TOOLS/convert_imageset \
 — shuffle \
 $VAL_DATA_ROOT \
 $DATA/val.txt \
-$EXAMPLE/dogs_val_lmdb
+$EXAMPLE/driver_val_lmdb
 
-    Above we set $DATA/train.txt, $DATA/val.txt and $EXAMPLE/dogs_train_lmdb, $EXAMPLE/dogs_val_lmdb
+    Above we set $DATA/train.txt, $DATA/val.txt and $EXAMPLE/driver_train_lmdb, $EXAMPLE/driver_val_lmdb
 
 You can also use (you will need it for some Caffe prototxt’s) make_mean.sh to generate mean file from input images (for further substraction in preprocessing step)
 
